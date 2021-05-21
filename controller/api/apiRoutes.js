@@ -4,12 +4,16 @@ const mongoose = require("mongoose");
 const Workout = require("../../models/Workout");
 
 // CREATE workout
-router.post("/workouts", async (req, res) => {
+router.post("/workouts", async ({ body }, res) => {
     try {
-
+        await Workout.create(body)
+        .then(workoutData => {
+            console.log(workoutData);
+            res.json(workoutData);
+        })
     } catch (err) {
         console.log(err);
-        res.sendStatus(400).json(err);
+        res.json(err);
     }
 });
 
@@ -18,7 +22,6 @@ router.get("/workouts", (req, res) => {
     try {
         Workout.find({})
         .then(workoutData => {
-            console.log(workoutData);
             res.json(workoutData);
         })
     } catch (err) {
