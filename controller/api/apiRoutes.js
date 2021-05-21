@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const Workout = require("../../models/Workout");
 
 // CREATE workout
-router.post("/api/workouts", async (req, res) => {
+router.post("/workouts", async (req, res) => {
     try {
 
     } catch (err) {
@@ -14,7 +14,7 @@ router.post("/api/workouts", async (req, res) => {
 });
 
 // READ workouts
-router.get("/api/workouts", (req, res) => {
+router.get("/workouts", (req, res) => {
     try {
         Workout.find({})
         .then(workoutData => {
