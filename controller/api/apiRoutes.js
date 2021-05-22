@@ -18,12 +18,16 @@ router.post("/workouts", async ({ body }, res) => {
 });
 
 // READ workouts
-router.get("/workouts", (req, res) => {
+router.get("/workouts", async (req, res) => {
     try {
-        Workout.find({})
-        .then(workoutData => {
-            res.json(workoutData);
-        })
+        const workoutData = await Workout.aggregate([
+            {
+                $addFields: {
+                    totalDuration: { $sum: "$exercises.duration"}
+                }
+            }
+        ])
+        res.json(workoutData);
     } catch (err) {
         console.log(err);
         res.sendStatus(500).json(err);
