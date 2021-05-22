@@ -43,4 +43,23 @@ router.put("/workouts/:id", ({body, params }, res) => {
     }
 });
 
+//Stats page routes
+router.get("/workouts/range", async (req, res) => {
+    try {
+        const workoutData = await Workout.aggregate([
+            {
+                $addFields: {
+                    totalDuration: { $sum: "$exercises.duration"}
+                }
+            }
+        ])
+        .sort({_id: 1})
+        .limit(7)
+        res.json(workoutData)
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500).json(err);
+    }
+});
+
 module.exports = router;
