@@ -31,13 +31,16 @@ router.get("/workouts", (req, res) => {
 });
 
 // UPDATE workout
-// router.put("/api/workouts", (req, res) => {
-//     try {
-
-//     } catch (err) {
-//         console.log(err);
-//         res.sendStatus(500).json(err);
-//     }
-// });
+router.put("/workouts/:id", ({body, params }, res) => {
+    try {
+        Workout.findByIdAndUpdate(params.id, { $push: { exercises: body }})
+        .then((workoutData => {
+            res.json(workoutData)
+        }))
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500).json(err);
+    }
+});
 
 module.exports = router;
